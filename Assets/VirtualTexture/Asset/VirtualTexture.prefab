@@ -1,0 +1,114 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &9049934331998624377
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9049934331998624376}
+  - component: {fileID: 9049934331998624354}
+  - component: {fileID: 9049934331998624380}
+  - component: {fileID: 9049934331998624383}
+  - component: {fileID: 9049934331998624381}
+  - component: {fileID: 9049934331998624382}
+  m_Layer: 0
+  m_Name: VirtualTexture
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9049934331998624376
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9049934331998624377}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &9049934331998624354
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9049934331998624377}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3108b3499777e08428fab6b4bc2789b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TableSize: 64
+  m_MipLevelLimit: 11
+  m_DebugShader: {fileID: 4800000, guid: 0b19d07428ef643b7a05b1553d24ca53, type: 3}
+--- !u!114 &9049934331998624380
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9049934331998624377}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28df4d51f47b040e3b0868ba1bccf1f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RegionSize: {x: 7, y: 5}
+  m_TileSize: 256
+  m_PaddingSize: 4
+  m_LayerCount: 1
+--- !u!114 &9049934331998624383
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9049934331998624377}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5eb8c3b994e3f4a1593539cc4ad9afe2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ThreadLimit: 3
+  m_FileRoot: 0
+  m_FilePathStrs:
+  - SlideExample/FinalData/Slide_MIP{2}_Y{1}_X{0}.png
+--- !u!114 &9049934331998624381
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9049934331998624377}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c831d4ec0c8b28c40a65fefe6d49a7ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ReadbackScale: 3
+  m_DownScaleShader: {fileID: 4800000, guid: e1929a9dd6e9086459f19b065daaf141, type: 3}
+  m_DebugShader: {fileID: 4800000, guid: 0b19d07428ef643b7a05b1553d24ca53, type: 3}
+--- !u!114 &9049934331998624382
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9049934331998624377}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d9afec8bd61f784aa5e6435b73a3e61, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Scale: 1
+  m_FeedbackShader: {fileID: 4800000, guid: bdaade2f0b89cfc4d90acc1e4b7a7536, type: 3}
+  m_MipmapBias: 0
