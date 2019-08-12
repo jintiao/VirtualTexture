@@ -123,21 +123,29 @@ namespace VirtualTexture
             // 激活对应页表
             foreach (var c in texture.GetRawTextureData<Color32>())
             {
-                SetActivePage(c.r, c.g, c.b);
+                ActivatePage(c.r, c.g, c.b);
             }
 
             // 将页表数据写入页表贴图
+            var currentFrame = (byte)Time.frameCount;
             var pixels = m_LookupTexture.GetRawTextureData<Color32>();
-            foreach(var kv in m_ActivePages)
+            foreach (var kv in m_ActivePages)
             {
                 var page = kv.Value;
-                var c = new Color32((byte)page.Payload.TileIndex.x, (byte)page.Payload.TileIndex.y, (byte)page.MipLevel, 0);
+
+                // 只写入当前帧活跃的页表
+                if (page.Payload.ActiveFrame != Time.frameCount)
+                    continue;
+
+                // a位保存写入frame序号，用于检查pixels是否为当前帧写入的数据(避免旧数据残留)
+                var c = new Color32((byte)page.Payload.TileIndex.x, (byte)page.Payload.TileIndex.y, (byte)page.MipLevel, currentFrame);
                 for (int y = page.Rect.y; y < page.Rect.yMax; y++)
                 {
                     for (int x = page.Rect.x; x < page.Rect.xMax; x++)
                     {
                         var id = y * TableSize + x;
-                        if (pixels[id].b > c.b)
+                        if (pixels[id].b > c.b ||  // 写入mipmap等级最小的页表
+                            pixels[id].a != currentFrame) // 当前帧还没有写入过数据
                             pixels[id] = c;
                     }
                 }
@@ -152,7 +160,7 @@ namespace VirtualTexture
         /// <summary>
         /// 激活页表
         /// </summary>
-        private TableNode SetActivePage(int x, int y, int mip)
+        private TableNode ActivatePage(int x, int y, int mip)
         {
             if (mip > m_PageTable.MipLevel)
                 return null;
@@ -177,7 +185,7 @@ namespace VirtualTexture
             // 激活对应的平铺贴图块
             m_TileTexture.SetActive(page.Payload.TileIndex);
 
-            page.Payload.ActiveFrame = Time.frameCount + 1;
+            page.Payload.ActiveFrame = Time.frameCount;
             return page;
         }
 

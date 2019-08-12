@@ -45,31 +45,6 @@ namespace VirtualTexture
             return null;
         }
 
-        // 取最近激活的节点
-        public void GetLatest(int x, int y, ref TableNode current)
-        {
-            if (!Contains(x, y))
-                return;
-
-            if (Payload.IsReady)
-            {
-                if (current == null ||
-                    Payload.ActiveFrame > current.Payload.ActiveFrame ||
-                    (Payload.ActiveFrame == current.Payload.ActiveFrame && MipLevel < current.MipLevel))
-                {
-                    current = this;
-                }
-            }
-
-            if (m_Children != null)
-            {
-                foreach (var child in m_Children)
-                {
-                    child.GetLatest(x, y, ref current);
-                }
-            }
-        }
-
         // 取当前已经就绪的节点
         public TableNode GetAvailable(int x, int y, int mip)
         {
