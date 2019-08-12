@@ -3,23 +3,23 @@
 ## Introduction
 Virtual texture for unity.
 
-![Far Screenhot](/Image/Screenhot1.png)
-![Close Screenhot](/Image/Screenhot2.png)
-
 ## Run The Demo
 1. Open the project with Unity 2018(or later).
 2. Click "Menu -> Demo -> Generate Virtual Texture" to generate needed data, it may takes about 10 minutes.
 3. Open Demo Scene.
 4. Play. Use w/s/a/d and mouse to move the camera.
 
+*Screen Shot*
+| far away | ![Far Screenhot](/Image/Screenhot1.png)   |
+| -------- | ------------------------------------------|
+| close up | ![Close Screenhot](/Image/Screenhot2.png) |
+
 ## Implement Detail
 
-![Screenhot](/Image/Screenhot3.png)
-
 ### Feedback Pass
-1. Feedback Renderer
+##### 1. Feedback Renderer
 
-![Feedback Renderer](/Image/FeedbackRenderer.png)
+Render the scene with feedback shader:
 
 ```c++
 fixed4 VTFragFeedback(VTV2f i) : SV_Target
@@ -34,15 +34,23 @@ fixed4 VTFragFeedback(VTV2f i) : SV_Target
 }
 ```
 
-2. Feedback Reader
+![Feedback Renderer](/Image/FeedbackRenderer.png)
+
+##### 2. Feedback Reader
+
+Readback feedback texture from gpu to cpu.
 
 ![Feedback Reader](/Image/FeedbackReader.png)
 
-3. Tiled Texture
+##### 3. Tiled Texture
+
+Load all need texture tiles into TiledTexture.
 
 ![Tiled Texture](/Image/TiledTexture.png)
 
-4. Page Table
+##### 4. Page Table
+
+update page table and lookup texture.
 
 ![Page Table](/Image/PageTable.png)
 
