@@ -11,7 +11,7 @@ namespace VirtualTexture
 	public class ReadbackStat
 	{
 		// 请求记录
-		private Dictionary<AsyncGPUReadbackRequest, int> m_Requests = new Dictionary<AsyncGPUReadbackRequest, int>();
+		private Queue<int> m_Requests;
 
 		// 总延迟数量
 		private int m_LatencyTotal;
@@ -48,7 +48,10 @@ namespace VirtualTexture
 			if(Time.realtimeSinceStartup < 5)
 				return;
 
-			m_Requests[request] = Time.frameCount;
+			if (m_Requests == null)
+				m_Requests = new Queue<int>();
+
+			m_Requests.Enqueue(Time.frameCount);
 		}
 
 		/// <summary>
@@ -56,14 +59,13 @@ namespace VirtualTexture
 		/// </summary>
 		public void EndRequest(AsyncGPUReadbackRequest request, bool success)
 		{
-			int frame = 0;
-			if(!m_Requests.TryGetValue(request, out frame))
+			if(m_Requests == null)
 				return;
-
+			
 			if (!success)
 				FailedCount++;
 
-			CurrentLatency = Time.frameCount - frame;
+			CurrentLatency = Time.frameCount - m_Requests.Dequeue();
 			MaxLatency = Mathf.Max(MaxLatency, CurrentLatency);
 
 			m_LatencyTotal += CurrentLatency;

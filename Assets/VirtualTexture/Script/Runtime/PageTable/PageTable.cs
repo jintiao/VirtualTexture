@@ -61,10 +61,10 @@ namespace VirtualTexture
         /// </summary>
         private Material m_DebugMaterial;
 
-        /// <summary>
-        /// 统计数据
-        /// </summary>
-        public PageTableStat Stat { get; private set; }
+		/// <summary>
+		/// 统计数据
+		/// </summary>
+		public FrameStat Stat { get; } = new FrameStat();
 
         /// <summary>
         /// 调试贴图
@@ -102,7 +102,6 @@ namespace VirtualTexture
 					MaxMipLevel,
 					0));
 
-            Stat = new PageTableStat(TableSize);
 			InitDebugTexture(TableSize, TableSize);
 
             m_Loader = (ILoader)GetComponent(typeof(ILoader));
@@ -117,7 +116,6 @@ namespace VirtualTexture
         /// </summary>
         private void ProcessFeedback(Texture2D texture)
         {
-            Stat.Reset();
             Stat.BeginFrame();
 
             // 激活对应页表
@@ -167,12 +165,9 @@ namespace VirtualTexture
 
             // 找到当前可用的页表
             var page = m_PageTable.GetAvailable(x, y, mip);
-
-            Stat.AddRequest(x >> mip, y >> mip, mip, page != null && page.MipLevel == mip);
-
-            // 没有可用页表，加载根节点
             if (page == null)
-            {
+			{
+				// 没有可用页表，加载根节点
                 LoadPage(x, y, m_PageTable);
                 return null;
             }

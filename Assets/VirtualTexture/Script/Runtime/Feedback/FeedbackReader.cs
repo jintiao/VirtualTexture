@@ -178,7 +178,7 @@ namespace VirtualTexture
 				else if(req.done)
 				{
 					// 更新数据并分发事件
-					m_ReadbackTexture.SetPixels32(req.GetData<Color32>().ToArray());
+					m_ReadbackTexture.GetRawTextureData<Color32>().CopyFrom(req.GetData<Color32>());
 					complete = true;
 
 					ReadbackStat.EndRequest(req, true);

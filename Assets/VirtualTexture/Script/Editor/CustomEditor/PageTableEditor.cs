@@ -13,41 +13,8 @@ namespace VirtualTexture
         {
 			var table = (PageTable)target;
 
-            DrawStat(table.Stat, 11);
+			DrawFrameStat(table.Stat);
             DrawTexture(table.DebugTexture, "Lookup Texture");
-        }
-
-        private void DrawStat(PageTableStat stat, int maxLevel)
-        {
-            var requestTotal = 0;
-            var requests = new Dictionary<int, int>();
-            var hits = new Dictionary<int, int>();
-            foreach (var kv in stat.RequestTables)
-            {
-                if (kv.Key > maxLevel)
-                    continue;
-                requestTotal += kv.Value.Count;
-                requests[kv.Key] = kv.Value.Count;
-                hits[kv.Key] = 0;
-            }
-
-            var hitTotal = 0;
-            foreach (var kv in stat.HitTables)
-            {
-                if (kv.Key > maxLevel)
-                    continue;
-                hitTotal += kv.Value.Count;
-                hits[kv.Key] = kv.Value.Count;
-            }
-
-            EditorGUILayout.Space();
-            EditorGUILayout.LabelField(string.Format("hits/requests: {0}/{1}({2}%)", hitTotal, requestTotal, (100.0f * hitTotal / requestTotal).ToString("N2")));
-            foreach (var kv in requests.OrderBy(pair => pair.Key))
-            {
-                EditorGUILayout.LabelField(string.Format("    mip{0}: {1}/{2}({3}%)", kv.Key, hits[kv.Key], kv.Value, (100.0f * hits[kv.Key] / kv.Value).ToString("N2")));
-            }
-
-            DrawFrameStat(stat);
         }
 
         [Conditional("ENABLE_DEBUG_TEXTURE")]
