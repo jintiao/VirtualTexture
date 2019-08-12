@@ -9,16 +9,21 @@ Virtual texture for unity.
 3. Open Demo Scene.
 4. Play. Use w/s/a/d and mouse to move the camera.
 
-*Screen Shot*
-
-| far away | ![Far Screenhot](/Image/Screenhot1.png)   |
-| -------- | ------------------------------------------|
-| close up | ![Close Screenhot](/Image/Screenhot2.png) |
+Screenshot1 | Screenshot2
+-------- | ----------
+![Far Screenshot](/Image/Screenshot1.png) | ![Close Screenshot](/Image/Screenshot2.png)
 
 ## Implement Detail
 
-### Feedback Pass
-#### 1. Feedback Renderer
+component       |        output
+------------ | -------------
+Feedback Renderer | ![Feedback Renderer](/Image/FeedbackRenderer.png)
+Feedback Reader | ![Feedback Renderer](/Image/FeedbackReader.png)
+Tiled Texture | ![Feedback Renderer](/Image/TiledTexture.png)
+Page Table | ![Feedback Renderer](/Image/PageTable.png)
+Screenshot    | ![Screenshot](/Image/Screenshot3.png)
+
+### 1. Feedback Renderer
 
 Render the scene with feedback shader:
 
@@ -35,27 +40,19 @@ fixed4 VTFragFeedback(VTV2f i) : SV_Target
 }
 ```
 
-![Feedback Renderer](/Image/FeedbackRenderer.png)
-
-#### 2. Feedback Reader
+### 2. Feedback Reader
 
 Readback feedback texture from gpu to cpu.
-
-![Feedback Reader](/Image/FeedbackReader.png)
 
 #### 3. Tiled Texture
 
 Load all need texture tiles into TiledTexture.
 
-![Tiled Texture](/Image/TiledTexture.png)
-
 #### 4. Page Table
 
 update page table and lookup texture.
 
-![Page Table](/Image/PageTable.png)
-
-### Shading Pass
+#### 5. Shading
 
 ```c++
 fixed4 VTFragUnlit(VTV2f i) : SV_Target
@@ -80,7 +77,6 @@ fixed4 VTTex2D0(float2 uv)
 }
 ```
 
-![Screenhot](/Image/Screenhot3.png)
 
 ## Reference
 http://www.silverspaceship.com/src/svt/
