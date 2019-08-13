@@ -13,6 +13,5 @@ namespace VirtualTexture
 			DrawFrameStat(renderer.Stat);
 			DrawTexture(renderer.TargetTexture, "Feedback Texture");
         }
-
     }
 }

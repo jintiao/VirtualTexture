@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using UnityEngine;
 
 namespace VirtualTexture
@@ -35,10 +34,21 @@ namespace VirtualTexture
 		[SerializeField]
 		private int m_LayerCount = 1;
 
-		/// <summary>
-		/// Tile缓存池.
-		/// </summary>
-		private LruCache m_TilePool = new LruCache();
+        /// <summary>
+        /// 贴图绘制着色器.
+        /// </summary>
+        [SerializeField]
+        private Shader m_DrawTextureShader = default;
+
+        /// <summary>
+        /// 贴图绘制材质
+        /// </summary>
+        private Material m_DrawTextureMateral;
+
+        /// <summary>
+        /// Tile缓存池.
+        /// </summary>
+        private LruCache m_TilePool = new LruCache();
 
 		/// <summary>
 		/// 物理贴图数组.
@@ -140,7 +150,7 @@ namespace VirtualTexture
 			{
 				if (textures[i] != null)
 				{
-					TextureUtil.DrawTexture(textures[i], Textures[i], new RectInt(tile.x * TileSizeWithPadding, tile.y * TileSizeWithPadding, TileSizeWithPadding, TileSizeWithPadding));
+					DrawTexture(textures[i], Textures[i], new RectInt(tile.x * TileSizeWithPadding, tile.y * TileSizeWithPadding, TileSizeWithPadding, TileSizeWithPadding));
 				}
 			}
 
@@ -156,5 +166,34 @@ namespace VirtualTexture
 		{
 			return (tile.y * RegionSize.x + tile.x);
 		}
+
+        private void DrawTexture(Texture source, RenderTexture target, RectInt position)
+        {
+            if (source == null || target == null || m_DrawTextureShader == null)
+                return;
+
+            // 初始化绘制材质
+            if (m_DrawTextureMateral == null)
+                m_DrawTextureMateral = new Material(m_DrawTextureShader);
+
+            // 构建变换矩阵
+            float l = position.x * 2.0f / target.width - 1;
+            float r = (position.x + position.width) * 2.0f / target.width - 1;
+            float b = position.y * 2.0f / target.height - 1;
+            float t = (position.y + position.height) * 2.0f / target.height - 1;
+            var mat = new Matrix4x4();
+            mat.m00 = r - l;
+            mat.m03 = l;
+            mat.m11 = t - b;
+            mat.m13 = b;
+            mat.m23 = -1;
+            mat.m33 = 1;
+
+            // 绘制贴图
+            m_DrawTextureMateral.SetMatrix(Shader.PropertyToID("_ImageMVP"), GL.GetGPUProjectionMatrix(mat, true));
+
+            target.DiscardContents();
+            Graphics.Blit(source, target, m_DrawTextureMateral);
+        }
     }
 }

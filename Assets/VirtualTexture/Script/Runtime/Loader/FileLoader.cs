@@ -52,8 +52,9 @@ namespace VirtualTexture
 			// 初始化下载路径
 			for(int i = 0; i < m_FilePathStrs.Length; i++)
 			{
-				m_FilePathStrs[i] = "file:///" + Path.Combine(m_FileRoot.Path(), m_FilePathStrs[i]);
-			}
+                //m_FilePathStrs[i] = Path.Combine(m_FileRoot.ToStr(), m_FilePathStrs[i]);
+                m_FilePathStrs[i] = "file:///" + Path.Combine(m_FileRoot.ToStr(), m_FilePathStrs[i]);
+            }
 		}
 
 		private void Update()
@@ -88,14 +89,14 @@ namespace VirtualTexture
 			for(int i = 0; i < m_FilePathStrs.Length; i++)
 			{
 				var file = string.Format(m_FilePathStrs[i], request.PageX >> request.MipLevel, request.PageY >> request.MipLevel, request.MipLevel);
-				var www = UnityWebRequestTexture.GetTexture(file);
+                var www = UnityWebRequestTexture.GetTexture(file);
 				yield return www.SendWebRequest();
 
 				if(!www.isNetworkError && !www.isHttpError)
 				{
 					textures[i] = ((DownloadHandlerTexture)www.downloadHandler).texture;
 					Stat.TotalDownladSize += (float)www.downloadedBytes / 1024.0f / 1024.0f;
-				}
+                }
 				else
 				{
 					Debug.LogWarningFormat("Load file({0}) failed: {1}", file, www.error);

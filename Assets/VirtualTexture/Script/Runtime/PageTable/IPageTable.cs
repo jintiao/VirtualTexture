@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-namespace VirtualTexture
+﻿namespace VirtualTexture
 {
 	/// <summary>
 	/// 页表接口.

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using Unity.Collections;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -137,6 +136,7 @@ namespace VirtualTexture
                     m_DownScaleTexture = new RenderTexture(width, height, 0);
                 }
 
+                m_DownScaleTexture.DiscardContents();
                 Graphics.Blit(texture, m_DownScaleTexture, m_DownScaleMaterial, m_DownScaleMaterialPass);
                 texture = m_DownScaleTexture;
             }
@@ -218,7 +218,9 @@ namespace VirtualTexture
 				m_DebugMaterial = new Material(m_DebugShader);
 
 			m_ReadbackTexture.Apply(false);
-			Graphics.Blit(m_ReadbackTexture, DebugTexture, m_DebugMaterial);
+
+            DebugTexture.DiscardContents();
+            Graphics.Blit(m_ReadbackTexture, DebugTexture, m_DebugMaterial);
 		}
     }
 }

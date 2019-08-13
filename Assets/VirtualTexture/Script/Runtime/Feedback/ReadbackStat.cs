@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -59,7 +58,7 @@ namespace VirtualTexture
 		/// </summary>
 		public void EndRequest(AsyncGPUReadbackRequest request, bool success)
 		{
-			if(m_Requests == null)
+			if(m_Requests == null || m_Requests.Count == 0)
 				return;
 			
 			if (!success)

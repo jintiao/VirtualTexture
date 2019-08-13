@@ -41,11 +41,6 @@ namespace VirtualTexture
         private Texture2D m_LookupTexture;
 
         /// <summary>
-        /// 是否需要更新页表
-        /// </summary>
-        private Color32[] m_LookupTexturePixels;
-
-        /// <summary>
         /// 文件加载器对象
         /// </summary>
         private ILoader m_Loader;
@@ -88,8 +83,6 @@ namespace VirtualTexture
 			m_LookupTexture = new Texture2D(TableSize, TableSize, TextureFormat.RGBA32, false);
 			m_LookupTexture.filterMode = FilterMode.Point;
 			m_LookupTexture.wrapMode = TextureWrapMode.Clamp;
-
-			m_LookupTexturePixels = m_LookupTexture.GetPixels32();
 
 			Shader.SetGlobalTexture(
 				"_VTLookupTex",
@@ -249,6 +242,7 @@ namespace VirtualTexture
             if (m_DebugMaterial == null)
                 m_DebugMaterial = new Material(m_DebugShader);
 
+            DebugTexture.DiscardContents();
             Graphics.Blit(m_LookupTexture, DebugTexture, m_DebugMaterial);
         }
     }

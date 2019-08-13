@@ -12,7 +12,7 @@ namespace VirtualTexture
 
 	public static class FolderTypeExtensions
 	{
-		public static string Path(this FolderType folder)
+		public static string ToStr(this FolderType folder)
 		{
 			switch(folder)
 			{
