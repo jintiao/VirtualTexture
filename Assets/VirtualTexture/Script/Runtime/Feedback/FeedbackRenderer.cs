@@ -49,20 +49,6 @@ namespace VirtualTexture
 
         private void Start()
 		{
-			var tileTexture = GetComponent(typeof(ITiledTexture)) as ITiledTexture;
-			var virtualTable = GetComponent(typeof(IPageTable)) as IPageTable;
-
-			// 设置预渲染着色器参数
-			// x: 页表大小(单位: 页)
-			// y: 虚拟贴图大小(单位: 像素)
-			// z: 最大mipmap等级
-            Shader.SetGlobalVector(
-                "_VTFeedbackParam", 
-				new Vector4(virtualTable.TableSize,
-				            virtualTable.TableSize * tileTexture.TileSize,
-				            virtualTable.MaxMipLevel,
-                            m_MipmapBias));
-
 			InitCamera();
         }
 
@@ -73,8 +59,9 @@ namespace VirtualTexture
                 return;
 
 			// 处理屏幕尺寸变换
-			var width = (int)(mainCamera.pixelWidth * m_Scale.ToFloat());
-			var height = (int)(mainCamera.pixelHeight * m_Scale.ToFloat());
+			var scale = m_Scale.ToFloat();
+			var width = (int)(mainCamera.pixelWidth * scale);
+			var height = (int)(mainCamera.pixelHeight * scale);
 			if (TargetTexture == null || TargetTexture.width != width || TargetTexture.height != height)
             {
 				TargetTexture = new RenderTexture(width, height, 0);
@@ -83,6 +70,20 @@ namespace VirtualTexture
                 TargetTexture.filterMode = FilterMode.Point;
 
                 m_FeedbackCamera.targetTexture = TargetTexture;
+
+
+				// 设置预渲染着色器参数
+				// x: 页表大小(单位: 页)
+				// y: 虚拟贴图大小(单位: 像素)
+				// z: 最大mipmap等级
+				var tileTexture = GetComponent(typeof(ITiledTexture)) as ITiledTexture;
+				var virtualTable = GetComponent(typeof(IPageTable)) as IPageTable;
+				Shader.SetGlobalVector(
+					"_VTFeedbackParam",
+					new Vector4(virtualTable.TableSize,
+					            virtualTable.TableSize * tileTexture.TileSize * scale,
+								virtualTable.MaxMipLevel,
+								m_MipmapBias));
             }
 
 			// 渲染前先拷贝主摄像机的相关参数
